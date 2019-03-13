@@ -1,7 +1,4 @@
-<ActionBar title="Current Challenge" (loaded)="onLoadedActionBar()" >
-    <!-- This is for Android + android.systemIcon="ic_menu_back" because android does not support text -->
-    <NavigationButton text="Back" android.systemIcon="ic_menu_back"></NavigationButton>
-</ActionBar>
+<ns-action-bar [title]="Current Challenge"></ns-action-bar>
 <StackLayout>
     <Label class="title" text="The current challenge"></Label>
     <Button text="Edit" class="btn btn-primary" (tab)="onEdit()"></Button>

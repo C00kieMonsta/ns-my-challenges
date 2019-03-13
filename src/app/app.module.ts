@@ -8,6 +8,7 @@ import { ChallengeEditComponent } from './challenges/challenge-edit/challenge-ed
 import { AuthComponent } from './auth/auth.component';
 import { TodayComponent } from './challenges/today/today.component';
 import { AppRoutingModule } from "./app-routing.module";
+import { ActionBarComponent } from './shared/ui/action-bar/action-bar.component';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 
@@ -30,6 +31,7 @@ import { AppRoutingModule } from "./app-routing.module";
         ChallengeEditComponent,
         AuthComponent,
         TodayComponent,
+        ActionBarComponent,
     ],
     providers: [],
     schemas: [
