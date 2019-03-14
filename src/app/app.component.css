@@ -1,0 +1,9 @@
+.sidedrawer {
+    background-color: aliceblue;
+}
+
+.sidedrawer-btn {
+    padding: 10;
+    border-color: aqua;
+    border-width: 5;
+}
