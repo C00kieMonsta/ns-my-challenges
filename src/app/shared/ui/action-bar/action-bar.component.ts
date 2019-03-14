@@ -31,8 +31,16 @@ export class ActionBarComponent implements OnInit {
         return this.router.canGoBack() && this.showBackButton;
     }
 
+    get android() {
+        return isAndroid;
+    }
+
     onGoBack() {
         this.router.backToPreviousPage();
+    }
+
+    onToggleMenu() {
+
     }
 
     // The Android back button color cannot be changed easily, we have to do it like this
