@@ -6,13 +6,24 @@ import { AuthComponent } from './auth/auth.component';
 import { TodayComponent } from './challenges/today/today.component';
 import { CurrentChallengeComponent } from './challenges/current-challenge/current-challenge.component';
 import { ChallengeEditComponent } from './challenges/challenge-edit/challenge-edit.component';
+import { ChallengeTabsComponent } from './challenges/challenge-tabs/challenge-tabs.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
-    { path: 'today', component: TodayComponent },
-    { path: 'current-challenge', component: CurrentChallengeComponent },
     { path: 'edit-challenge', component: ChallengeEditComponent },
-];
+    {
+      path: 'challenges',
+      component: ChallengeTabsComponent,
+      children: [
+        { path: 'today', component: TodayComponent, outlet: 'today' },
+        {
+          path: 'current-challenge',
+          component: CurrentChallengeComponent,
+          outlet: 'currentChallenge'
+        }
+      ]
+    }
+  ];
 
 /**
  * Similarily as with the BrowserModule, here we are also going to use the native script module
