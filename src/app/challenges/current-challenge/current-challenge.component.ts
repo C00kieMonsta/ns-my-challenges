@@ -5,10 +5,13 @@ import { DayModalComponent } from '../day-modal/day-modal.component';
 import { UIService } from '~/app/shared/ui/ui.service';
 
 @Component({
- selector: 'ns-current-challenge',
- templateUrl: './current-challenge.component.html',
- styleUrls: ['./current-challenge.component.css'],
- moduleId: module.id,
+    selector: 'ns-current-challenge',
+    templateUrl: './current-challenge.component.html',
+    styleUrls: [
+        './_current-challenge.component.common.scss',
+        './current-challenge.component.scss'
+    ],
+    moduleId: module.id,
 })
 export class CurrentChallengeComponent {
 
