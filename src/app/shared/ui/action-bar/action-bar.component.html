@@ -14,4 +14,7 @@
 
     <!-- Menu button for Android -->
     <NavigationButton *ngIf="android && hasMenu" icon="res://menu_black" (tap)="onToggleMenu()"></NavigationButton>
+
+    <!-- We use here transclusion to inject any sort of xml inside the body of the component -->
+    <ng-content></ng-content>
 </ActionBar>
