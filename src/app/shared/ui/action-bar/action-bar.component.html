@@ -8,10 +8,10 @@
     ></NavigationButton>
 
     <!-- Menu button for ios -->
-    <ActionItem *ngIf="!android" ios.position="left" (tap)="onToggleMenu()">
+    <ActionItem *ngIf="!android && hasMenu" ios.position="left" (tap)="onToggleMenu()">
         <Label text="MENU"></Label>
     </ActionItem>
 
     <!-- Menu button for Android -->
-    <NavigationButton *ngIf="android" icon="res://menu_black" (tap)="onToggleMenu()"></NavigationButton>
+    <NavigationButton *ngIf="android && hasMenu" icon="res://menu_black" (tap)="onToggleMenu()"></NavigationButton>
 </ActionBar>

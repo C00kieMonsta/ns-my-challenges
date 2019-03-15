@@ -19,6 +19,7 @@ export class ActionBarComponent implements OnInit {
 
     @Input() title: string = 'Home';
     @Input() showBackButton: boolean = true;
+    @Input() hasMenu: boolean = true;
 
     constructor(
         private page: Page,
