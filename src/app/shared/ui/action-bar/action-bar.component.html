@@ -6,4 +6,15 @@
         text="Back"
         android.systemIcon="ic_menu_back"
     ></NavigationButton>
+
+    <!-- Menu button for ios -->
+    <ActionItem *ngIf="!android && hasMenu" ios.position="left" (tap)="onToggleMenu()">
+        <Label text="MENU"></Label>
+    </ActionItem>
+
+    <!-- Menu button for Android -->
+    <NavigationButton *ngIf="android && hasMenu" icon="res://menu_black" (tap)="onToggleMenu()"></NavigationButton>
+
+    <!-- We use here transclusion to inject any sort of xml inside the body of the component -->
+    <ng-content></ng-content>
 </ActionBar>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   selector: 'ns-challenge-tabs',
@@ -18,7 +19,8 @@ export class ChallengeTabsComponent implements OnInit {
 
     constructor(
         private router: RouterExtensions,
-        private activeRoute: ActivatedRoute
+        private activeRoute: ActivatedRoute,
+        private page: Page,
     ) { }
 
     ngOnInit() {
@@ -26,7 +28,9 @@ export class ChallengeTabsComponent implements OnInit {
             currentChallenge: ['current-challenge'],
             today: ['today']
         };
-        this.router.navigate([{ outlets }], { relativeTo: this.activeRoute })
-    }
+        this.router.navigate([{ outlets }], { relativeTo: this.activeRoute });
 
+        // if you do not add this, you get two action bars on android
+        this.page.actionBarHidden = true;
+    }
 }

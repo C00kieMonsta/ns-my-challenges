@@ -1,3 +1,24 @@
-<StackLayout>
-    <page-router-outlet></page-router-outlet>
-</StackLayout>
+<!--
+    For the side drawer, we encapsulate de router and we add inside it a StackLayout
+    to which we assign a specific directive called 'tkDrawerContent'
+
+    This package will basically look for an element with this 'tkDrawerContent' attribute on
+    it and it will take the content that sits inside the Layout and move it into the drawer that opens
+
+    Additinaly you should also make sure that you mark the main content over whihc the drawer sits
+    and you use the 'tkMainContent' attribute
+-->
+
+<RadSideDrawer>
+    <FlexboxLayout tkDrawerContent class="sidedrawer" justifyContent="space-between" flexDirection="column">
+        <FlexboxLayout flexDirection="column">
+            <Button class="sidedrawer-btn" text="Profile"></Button>
+            <Button class="sidedrawer-btn" text="Settings"></Button>
+            <Button class="sidedrawer-btn" text="Privacy"></Button>
+        </FlexboxLayout>
+        <Button class="sidedrawer-btn" text="Log out" nsRouterLink="/" [clearHistory]="true" (tap)="onLogOut()"></Button>
+    </FlexboxLayout>
+    <StackLayout tkMainContent>
+        <page-router-outlet></page-router-outlet>
+    </StackLayout>
+</RadSideDrawer>

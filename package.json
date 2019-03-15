@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "org.nativescript.nsmychallenges",
-    "tns-android": {
-      "version": "5.2.1"
-    },
     "tns-ios": {
       "version": "5.2.0"
+    },
+    "tns-android": {
+      "version": "5.2.1"
     }
   },
   "description": "NativeScript Application",
@@ -23,6 +23,7 @@
     "@angular/router": "~7.2.0",
     "nativescript-angular": "~7.2.1",
     "nativescript-theme-core": "~1.0.4",
+    "nativescript-ui-sidedrawer": "^6.0.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.3.0",
     "tns-core-modules": "~5.2.0",
