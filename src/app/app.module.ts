@@ -11,6 +11,7 @@ import { TodayComponent } from './challenges/today/today.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ActionBarComponent } from './shared/ui/action-bar/action-bar.component';
 import { ChallengeTabsComponent } from './challenges/challenge-tabs/challenge-tabs.component';
+import { DayModalComponent } from './challenges/day-modal/day-modal.component';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 
@@ -36,7 +37,9 @@ import { ChallengeTabsComponent } from './challenges/challenge-tabs/challenge-ta
         TodayComponent,
         ActionBarComponent,
         ChallengeTabsComponent,
+        DayModalComponent,
     ],
+    entryComponents: [DayModalComponent],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
