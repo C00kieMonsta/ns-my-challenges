@@ -9,13 +9,12 @@ import { RouterExtensions } from 'nativescript-angular/router';
 declare var android: any;
 
 @Component({
-  selector: 'ns-action-bar',
-  templateUrl: './action-bar.component.html',
-  styleUrls: ['./action-bar.component.css'],
+  selector: 'ns-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
   moduleId: module.id,
 })
-export class ActionBarComponent implements OnInit {
-
+export class HeaderComponent implements OnInit {
     @Input() title: string = 'Home';
     @Input() showBackButton: boolean = true;
 
