@@ -1,9 +1,8 @@
 .sidedrawer {
-    background-color: aliceblue;
+    background: linear-gradient(140deg, #2b0c72, #5c3fa0);
 }
 
 .sidedrawer-btn {
     padding: 10;
-    border-color: aqua;
-    border-width: 5;
+    color: blanchedalmond;
 }

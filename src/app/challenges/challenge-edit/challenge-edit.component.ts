@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   moduleId: module.id,
 })
 export class ChallengeEditComponent {
-
+    //
 }

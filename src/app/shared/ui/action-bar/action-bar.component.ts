@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { isAndroid } from 'tns-core-modules/platform';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
+import { UIService } from '../ui.service';
 
 // this is a variable that is accessible everywhere in your adroidn code
 // but typescript doesn't know that it is globally available so we have to
@@ -21,7 +22,8 @@ export class ActionBarComponent implements OnInit {
 
     constructor(
         private page: Page,
-        private router: RouterExtensions
+        private router: RouterExtensions,
+        private uiService: UIService,
     ) { }
 
     ngOnInit() {}
@@ -40,7 +42,7 @@ export class ActionBarComponent implements OnInit {
     }
 
     onToggleMenu() {
-
+        this.uiService.toggleDrawer();
     }
 
     // The Android back button color cannot be changed easily, we have to do it like this

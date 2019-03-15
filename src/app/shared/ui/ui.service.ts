@@ -8,13 +8,13 @@ import { BehaviorSubject } from 'rxjs';
  */
 
 @Injectable({ providedIn: 'root' })
-export class uiService {
+export class UIService {
 
     /**
      * This is essentially like an eventemitter which also has a starting value in case we
      * are listening on it before an event has been emitted
      */
-    private _drawerState = new BehaviorSubject<boolean>(false);
+    private _drawerState = new BehaviorSubject<void>(null);
 
     get drawerState() {
         return this._drawerState.asObservable();
@@ -23,7 +23,7 @@ export class uiService {
     constructor() {}
 
     toggleDrawer() {
-
+        this._drawerState.next(null);
     }
 
 }

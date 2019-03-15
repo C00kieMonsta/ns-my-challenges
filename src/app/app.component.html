@@ -16,7 +16,7 @@
             <Button class="sidedrawer-btn" text="Settings"></Button>
             <Button class="sidedrawer-btn" text="Privacy"></Button>
         </FlexboxLayout>
-        <Button class="sidedrawer-btn" text="Log out"></Button>
+        <Button class="sidedrawer-btn" text="Log out" nsRouterLink="/" [clearHistory]="true" (tap)="onLogOut()"></Button>
     </FlexboxLayout>
     <StackLayout tkMainContent>
         <page-router-outlet></page-router-outlet>

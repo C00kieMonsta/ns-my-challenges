@@ -1,4 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { Observable, Subscription } from "rxjs";
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
+import { RadSideDrawer } from "nativescript-ui-sidedrawer";
+
+import { UIService } from "./shared/ui/ui.service";
 
 @Component({
     selector: "ns-app",
@@ -6,12 +11,45 @@ import { Component } from "@angular/core";
     styleUrls: ['./app.component.css'],
     templateUrl: "./app.component.html"
 })
-export class AppComponent {
-    myChallenges: Array<string> = [];
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    constructor() {}
+    @ViewChild(RadSideDrawerComponent) drawerComponent: RadSideDrawerComponent;
+
+    myChallenges: Array<string> = [];
+    private drawerSub: Subscription;
+    private drawer: RadSideDrawer;
+
+    constructor(
+        private uiService: UIService,
+        private changeDetectionRef: ChangeDetectorRef,
+    ) {}
+
+    ngOnInit() {
+        this.drawerSub = this.uiService.drawerState.subscribe((s) => {
+            if (this.drawer) {
+                this.drawer.toggleDrawerState();
+            }
+        });
+    }
+
+    ngAfterViewInit() {
+        /**
+         * Here we manually have to run change detection, it is a mecanisme built in Angular
+         * that checks if it needs to rerendre the UI
+         */
+        this.drawer = this.drawerComponent.sideDrawer;
+        this.changeDetectionRef.detectChanges();
+    }
 
     addChallenge(event) {
         this.myChallenges.push(event);
+    }
+
+    onLogOut() {
+        this.uiService.toggleDrawer();
+    }
+
+    ngOnDestroy() {
+        this.drawerSub.unsubscribe();
     }
 }
