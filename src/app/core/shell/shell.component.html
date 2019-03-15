@@ -1,0 +1,13 @@
+<RadSideDrawer>
+    <FlexboxLayout tkDrawerContent class="sidedrawer" justifyContent="space-between" flexDirection="column">
+        <FlexboxLayout flexDirection="column">
+            <Button class="sidedrawer-btn" text="Profile"></Button>
+            <Button class="sidedrawer-btn" text="Settings"></Button>
+            <Button class="sidedrawer-btn" text="Privacy"></Button>
+        </FlexboxLayout>
+        <Button class="sidedrawer-btn" text="Log out"></Button>
+    </FlexboxLayout>
+    <StackLayout tkMainContent>
+        <page-router-outlet></page-router-outlet>
+    </StackLayout>
+</RadSideDrawer>
