@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   moduleId: module.id
 })
 export class ChallengeActionsComponent implements OnInit {
+
   @Output() actionSelect = new EventEmitter<'complete' | 'fail' | 'cancel'>();
   @Input() cancelText = 'Cancel';
 
