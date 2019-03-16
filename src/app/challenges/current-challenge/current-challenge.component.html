@@ -17,9 +17,9 @@
             + 5 rows for weeks (4 weeks + some days) = 5 rows
             + 1 row when month start on Saterday
         -->
-        <GridLayout rows="auto,*,*,*,*,*,*" columns="*,*,*,*,*,*,*">
-            <Label class="text-center" width="100%" *ngFor="let day of weekDays; let i = index;" [text]="day" row="0"
-                [col]="i"></Label>
+        <GridLayout rows="auto,*,*,*,*,*,*" columns="*,*,*,*,*,*,*" marginTop="20">
+            <Label class="text-center" width="100%" *ngFor="let day of weekDays; let i = index;" [text]="day" row="0" [col]="i"></Label>
+            <Label class="text-center" width="50" height="50" *ngFor="let day of days; let i = index;" [text]="day.dayInMonth" [row]="getRow(i, day)" [col]="day.dayInWeek"></Label>
         </GridLayout>
     </FlexboxLayout>
 </ScrollView>
