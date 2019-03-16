@@ -1,16 +1,8 @@
-<!-- You must give names to the tabs for routing as the 'outlet' key -->
-
-<!--
-    Notice that when using page-router-outlet, you get 2 action bars on adroid, the second
-    action bar comes from the page-router-outlet from app component
-    To avoid this, we use the router outlet
--->
-
-<TabView androidTabsPosition="bottom" androidSelectedTabHighlightColor="#501870" selectedTabTextColor="#501870">
-    <StackLayout *tabItem="{ title: 'Today' }">
-        <page-router-outlet name="today"></page-router-outlet>
-    </StackLayout>
-    <StackLayout *tabItem="{ title: 'Current Challenge' }">
-        <page-router-outlet name="currentChallenge"></page-router-outlet>
-    </StackLayout>
+<TabView androidTabsPosition="bottom">
+  <StackLayout *tabItem="{ title: 'Today' }">
+    <page-router-outlet name="today"> </page-router-outlet>
+  </StackLayout>
+  <StackLayout *tabItem="{ title: 'Current Challenge' }">
+    <page-router-outlet name="currentChallenge"> </page-router-outlet>
+  </StackLayout>
 </TabView>

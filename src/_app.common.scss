@@ -33,6 +33,15 @@ ActionBar {
   }
 }
 
+.h1 {
+  font-weight: bold;
+  color: $primary;
+}
+
+.fa {
+  font-family: 'FontAwesome', 'Font-Awesome';
+}
+
 // .form-control {
 //   border-bottom-color: #7c015d;
 //   border-bottom-width: 2;
@@ -53,11 +62,6 @@ ActionBar {
   background: transparent;
   border-color: transparent;
   border-width: 1;
-  color: $primary;
-}
-
-.h1 {
-  font-weight: bold;
   color: $primary;
 }
 
