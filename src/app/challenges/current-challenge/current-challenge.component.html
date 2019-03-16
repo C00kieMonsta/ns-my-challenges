@@ -4,7 +4,22 @@
     <ActionItem ios.position="right" android.position="actionBar" nsRouterLink="/challenges/edit" pageTransition="slideLeft">
         <Label text="Edit"></Label></ActionItem>
 </ns-action-bar>
-<FlexboxLayout class="page">
-    <Label class="h1 text-center" text="Take a walk every day"></Label>
-    <Label class="body text-center" text="Walk for at least 20 minutes on every of the week."></Label>
-</FlexboxLayout>
+
+<ScrollView>
+    <FlexboxLayout class="page">
+        <StackLayout>
+            <Label class="h1 text-center" text="Take a walk every day"></Label>
+            <Label class="body text-center" text="Walk for at least 20 minutes on every of the week."></Label>
+        </StackLayout>
+
+        <!--
+            1 auto row for days
+            + 5 rows for weeks (4 weeks + some days) = 5 rows
+            + 1 row when month start on Saterday
+        -->
+        <GridLayout rows="auto,*,*,*,*,*,*" columns="*,*,*,*,*,*,*">
+            <Label class="text-center" width="100%" *ngFor="let day of weekDays; let i = index;" [text]="day" row="0"
+                [col]="i"></Label>
+        </GridLayout>
+    </FlexboxLayout>
+</ScrollView>

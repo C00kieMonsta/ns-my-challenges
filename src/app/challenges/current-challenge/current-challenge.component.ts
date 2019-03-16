@@ -15,6 +15,8 @@ import { UIService } from '~/app/shared/ui/ui.service';
 })
 export class CurrentChallengeComponent {
 
+    weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
     constructor(
         private modalDialog: ModalDialogService,
         private vcRef: ViewContainerRef,
