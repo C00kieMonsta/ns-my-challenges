@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ActionBarComponent } from './shared/ui/action-bar/action-bar.component';
 import { ChallengeTabsComponent } from './challenges/challenge-tabs/challenge-tabs.component';
 import { DayModalComponent } from './challenges/day-modal/day-modal.component';
+import { ChallengeActionsComponent } from './challenges/challenge-actions/challenge-actions.component';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 
@@ -38,6 +39,7 @@ import { DayModalComponent } from './challenges/day-modal/day-modal.component';
         ActionBarComponent,
         ChallengeTabsComponent,
         DayModalComponent,
+        ChallengeActionsComponent,
     ],
     entryComponents: [DayModalComponent],
     providers: [],

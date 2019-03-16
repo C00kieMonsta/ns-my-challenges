@@ -5,52 +5,54 @@ import { DayModalComponent } from '../day-modal/day-modal.component';
 import { UIService } from '~/app/shared/ui/ui.service';
 
 @Component({
-    selector: 'ns-current-challenge',
-    templateUrl: './current-challenge.component.html',
-    styleUrls: [
-        './_current-challenge.component.common.scss',
-        './current-challenge.component.scss'
-    ],
-    moduleId: module.id,
+  selector: 'ns-current-challenge',
+  templateUrl: './current-challenge.component.html',
+  styleUrls: [
+    './_current-challenge.component.common.scss',
+    './current-challenge.component.scss'
+  ],
+  moduleId: module.id
 })
 export class CurrentChallengeComponent implements OnInit {
+  weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  days: { dayInMonth: number; dayInWeek: number }[] = [];
+  private currentMonth: number;
+  private currentYear: number;
 
-    weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-    days: { dayInMonth: number, dayInWeek: number }[] = [];
-    today: Date;
+  constructor(
+    private modalDialog: ModalDialogService,
+    private vcRef: ViewContainerRef,
+    private uiService: UIService
+  ) {}
 
-    constructor(
-        private modalDialog: ModalDialogService,
-        private vcRef: ViewContainerRef,
-        private uiService: UIService,
-    ) {
-        this.today = new Date();
+  ngOnInit() {
+    this.currentYear = new Date().getFullYear();
+    this.currentMonth = new Date().getMonth();
+    const daysInMonth = new Date(
+      this.currentYear,
+      this.currentMonth + 1,
+      0
+    ).getDate();
+
+    for (let i = 1; i < daysInMonth + 1; i++) {
+      const date = new Date(this.currentYear, this.currentMonth, i);
+      const dayInWeek = date.getDay();
+      this.days.push({ dayInMonth: i, dayInWeek: dayInWeek });
     }
+  }
 
-    ngOnInit() {
-        const currentYear = this.today.getFullYear();
-        const currentMonth = this.today.getMonth();
+  getRow(index: number, day: { dayInMonth: number; dayInWeek: number }) {
+    const startRow = 1;
+    const weekRow = Math.floor(index / 7);
+    const firstWeekDayOfMonth = new Date(
+      this.currentYear,
+      this.currentMonth,
+      1
+    ).getDay();
+    const irregularRow = day.dayInWeek < firstWeekDayOfMonth ? 1 : 0;
 
-        /**
-         * When we set the day to 0, this is the last day of the last month because we set month+1
-         *
-         * For instance, we are in January, 2019
-         *
-         *  new Date(2019, (Jan + 1 = Feb), 0)  =  this gives us the last day of Jan  =  31
-         */
-        const numberOfDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-        for (let i = 0; i < numberOfDaysInMonth + 1; i++) {
-            const date = new Date(currentYear, currentMonth, i);
-            this.days.push({ dayInMonth: i, dayInWeek: date.getDay() });
-        }
-    }
-
-    getRow(i: number, day: { dayInMonth: number, dayInWeek: number }) {
-        const startow = 1; // row 0 is taken for week days
-        const weekRow = Math.floor(i / 7);
-        return startow + weekRow;
-    }
+    return startRow + weekRow + irregularRow;
+  }
 
     onChangeStatus() {
         /**
