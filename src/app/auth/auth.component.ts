@@ -10,80 +10,68 @@ import { TextField } from 'tns-core-modules/ui/text-field';
   moduleId: module.id
 })
 export class AuthComponent implements OnInit {
+  form: FormGroup;
+  emailControlIsValid = true;
+  passwordControlIsValid = true;
+  isLogin = true;
+  @ViewChild('passwordEl') passwordEl: ElementRef<TextField>;
+  @ViewChild('emailEl') emailEl: ElementRef<TextField>;
 
-    form: FormGroup;
-    usernameControlIsValid = true;
-    emailControlIsValid = true;
-    passwordControlIsValid = true;
-    isLogin = true;
-    @ViewChild('usernameEl') usernameEl: ElementRef<TextField>;
-    @ViewChild('passwordEl') passwordEl: ElementRef<TextField>;
-    @ViewChild('emailEl') emailEl: ElementRef<TextField>;
+  constructor(private router: RouterExtensions) {}
 
-    constructor(private router: RouterExtensions) {}
+  ngOnInit() {
+    this.form = new FormGroup({
+      email: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required, Validators.email]
+      }),
+      password: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required, Validators.minLength(6)]
+      })
+    });
 
-    ngOnInit() {
-        this.form = new FormGroup({
-            username: new FormControl(null, {
-                updateOn: 'blur',
-                validators: [Validators.required, Validators.email]
-            }),
-            email: new FormControl(null, {
-                updateOn: 'blur',
-                validators: [Validators.required, Validators.email]
-            }),
-            password: new FormControl(null, {
-                updateOn: 'blur',
-                validators: [Validators.required, Validators.minLength(6)]
-            })
-        });
+    this.form.get('email').statusChanges.subscribe(status => {
+      this.emailControlIsValid = status === 'VALID';
+    });
 
-        this.form.get('username').statusChanges.subscribe(status => {
-            this.usernameControlIsValid = status === 'VALID';
-        });
+    this.form.get('password').statusChanges.subscribe(status => {
+      this.passwordControlIsValid = status === 'VALID';
+    });
+  }
 
-        this.form.get('email').statusChanges.subscribe(status => {
-            this.emailControlIsValid = status === 'VALID';
-        });
+  onSignin() {
+    this.router.navigate(['/today'], { clearHistory: true });
+  }
 
-        this.form.get('password').statusChanges.subscribe(status => {
-            this.passwordControlIsValid = status === 'VALID';
-        });
+  onSubmit() {
+    this.emailEl.nativeElement.focus();
+    this.passwordEl.nativeElement.focus();
+    this.passwordEl.nativeElement.dismissSoftInput();
+
+    if (!this.form.valid) {
+      return;
     }
 
-    onSignin() {
-        this.router.navigate(['/today'], { clearHistory: true });
+    const email = this.form.get('email').value;
+    const password = this.form.get('password').value;
+    this.form.reset();
+    this.emailControlIsValid = true;
+    this.passwordControlIsValid = true;
+    if (this.isLogin) {
+      console.log('Logging in...');
+    } else {
+      console.log('Signing up ...');
     }
+  }
 
-    onSubmit() {
-        this.emailEl.nativeElement.focus();
-        this.passwordEl.nativeElement.focus();
-        this.passwordEl.nativeElement.dismissSoftInput();
+  onDone() {
+    this.emailEl.nativeElement.focus();
+    this.passwordEl.nativeElement.focus();
+    this.passwordEl.nativeElement.dismissSoftInput();
+  }
 
-        if (!this.form.valid) {
-            return;
-        }
-
-        const email = this.form.get('email').value;
-        const password = this.form.get('password').value;
-        this.form.reset();
-        this.usernameControlIsValid = true;
-        this.emailControlIsValid = true;
-        this.passwordControlIsValid = true;
-        if (this.isLogin) {
-            console.log('Logging in...');
-        } else {
-            console.log('Signing up ...');
-        }
-    }
-
-    onDone() {
-        this.emailEl.nativeElement.focus();
-        this.passwordEl.nativeElement.focus();
-        this.passwordEl.nativeElement.dismissSoftInput();
-    }
-
-    onSwitch() {
-        this.isLogin = !this.isLogin;
-    }
+  onSwitch() {
+    this.isLogin = !this.isLogin;
+  }
 }
