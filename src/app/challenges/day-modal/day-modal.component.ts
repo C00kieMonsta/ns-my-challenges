@@ -5,19 +5,18 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
   selector: 'ns-day-modal',
   templateUrl: './day-modal.component.html',
   styleUrls: ['./day-modal.component.css'],
-  moduleId: module.id,
+  moduleId: module.id
 })
 export class DayModalComponent implements OnInit {
+  loadedDate: Date;
 
-    loadedDate: Date;
+  constructor(private modalParams: ModalDialogParams) {}
 
-    constructor(private modalParams: ModalDialogParams) { }
+  ngOnInit() {
+    this.loadedDate = (this.modalParams.context as { date: Date }).date;
+  }
 
-    ngOnInit() {
-        this.loadedDate = (this.modalParams.context as {date: Date}).date;
-    }
-
-    onHandleInput(input: string) {
-        this.modalParams.closeCallback(input);
-    }
+  onHandleInput(action: 'complete' | 'fail' | 'cancel') {
+    this.modalParams.closeCallback(action);
+  }
 }

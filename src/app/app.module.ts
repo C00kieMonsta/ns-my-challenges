@@ -4,48 +4,38 @@ import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NativeScriptUISideDrawerModule } from 'nativescript-ui-sidedrawer/angular/side-drawer-directives';
 
 import { AppComponent } from './app.component';
-import { CurrentChallengeComponent } from './challenges/current-challenge/current-challenge.component';
-import { ChallengeEditComponent } from './challenges/challenge-edit/challenge-edit.component';
 import { AuthComponent } from './auth/auth.component';
-import { TodayComponent } from './challenges/today/today.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ActionBarComponent } from './shared/ui/action-bar/action-bar.component';
-import { ChallengeTabsComponent } from './challenges/challenge-tabs/challenge-tabs.component';
 import { DayModalComponent } from './challenges/day-modal/day-modal.component';
+import { SharedModule } from './shared/shared.module';
+import { ChallengeActionsModule } from './challenges/challenge-actions/challenge-actions.module';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
+// import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 // Uncomment and add to NgModule imports if you need to use the HttpClient wrapper
-// import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
-
+// import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 
 @NgModule({
-    bootstrap: [
-        AppComponent
-    ],
-    imports: [
-        NativeScriptModule,
-        NativeScriptFormsModule,
-        AppRoutingModule,
-        NativeScriptUISideDrawerModule,
-    ],
-    declarations: [
-        AppComponent,
-        CurrentChallengeComponent,
-        ChallengeEditComponent,
-        AuthComponent,
-        TodayComponent,
-        ActionBarComponent,
-        ChallengeTabsComponent,
-        DayModalComponent,
-    ],
-    entryComponents: [DayModalComponent],
-    providers: [],
-    schemas: [
-        NO_ERRORS_SCHEMA
-    ]
+  bootstrap: [AppComponent],
+  imports: [
+    NativeScriptModule,
+    NativeScriptFormsModule,
+    NativeScriptUISideDrawerModule,
+    AppRoutingModule,
+    SharedModule,
+    ChallengeActionsModule
+  ],
+  declarations: [
+    AppComponent,
+    AuthComponent,
+    DayModalComponent
+  ],
+  providers: [],
+  schemas: [NO_ERRORS_SCHEMA],
+  entryComponents: [DayModalComponent]
 })
 /*
 Pass your application module to the bootstrapModule function located in main.ts to start your app
 */
-export class AppModule { }
+export class AppModule {}
