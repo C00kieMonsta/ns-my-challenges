@@ -63,6 +63,7 @@ export class AuthComponent implements OnInit {
     } else {
       console.log('Signing up ...');
     }
+    this.router.navigate(['/challenges']);
   }
 
   onDone() {

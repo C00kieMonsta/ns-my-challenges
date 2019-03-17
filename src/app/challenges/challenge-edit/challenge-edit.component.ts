@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ChallengesService } from '../challenges.service';
 
 @Component({
   selector: 'ns-challenge-edit',
@@ -17,7 +18,8 @@ export class ChallengeEditComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private router: RouterExtensions,
-        private pageRoute: PageRoute
+        private pageRoute: PageRoute,
+        private challengesService: ChallengesService
     ) {}
 
     ngOnInit() {
@@ -42,6 +44,7 @@ export class ChallengeEditComponent implements OnInit {
 
     onSubmit() {
         // get form values
+        this.challengesService.createNewChallenge(this.form.get('title').value, this.form.get('description').value)
         this.router.backToPreviousPage();
     }
 }
