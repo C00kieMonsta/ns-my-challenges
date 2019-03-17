@@ -39,7 +39,7 @@ export class ActionBarComponent implements OnInit {
   }
 
   onLoadedActionBar() {
-    if (isAndroid) {
+    if (isAndroid && !this.hasMenu) {
       const androidToolbar = this.page.actionBar.nativeView;
       const backButton = androidToolbar.getNavigationIcon();
       if (backButton) {
