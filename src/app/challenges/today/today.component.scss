@@ -4,3 +4,9 @@ GridLayout {
     // background-position: center;
     // background-size: cover;
 }
+
+.page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
