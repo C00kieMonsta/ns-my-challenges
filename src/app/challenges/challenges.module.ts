@@ -1,5 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptCommonModule } from 'nativescript-angular/common';
+import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 
 import { ChallengesRoutingModule } from './challenges-routing.module';
 import { ChallengeTabsComponent } from './challenge-tabs/challenge-tabs.component';
@@ -16,6 +17,7 @@ import { ChallengeActionsModule } from './challenge-actions/challenge-actions.mo
   ],
   imports: [
     NativeScriptCommonModule,
+    NativeScriptHttpClientModule,
     ChallengesRoutingModule,
     SharedModule,
     ChallengeActionsModule
