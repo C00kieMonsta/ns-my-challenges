@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DayStatus } from '../day.model';
 
 @Component({
@@ -7,27 +7,48 @@ import { DayStatus } from '../day.model';
   styleUrls: ['./challenge-actions.component.scss'],
   moduleId: module.id
 })
-export class ChallengeActionsComponent implements OnInit {
+export class ChallengeActionsComponent implements OnInit, OnChanges {
 
-  @Output() actionSelect = new EventEmitter<DayStatus>();
-  @Input() cancelText = 'Cancel';
-  action: 'complete' | 'fail' = null;
+    @Output() actionSelect = new EventEmitter<DayStatus>();
+    @Input() cancelText = 'Cancel';
+    @Input() chosen: 'complete' | 'fail' = null;
 
-  constructor() {}
+    action: 'complete' | 'fail' = null;
+    done = false;
 
-  ngOnInit() {}
+    constructor() {}
 
-  onAction(action: 'complete' | 'fail' | 'cancel') {
-    let status = DayStatus.Open;
-    if (action === 'complete') {
-      status = DayStatus.Completed;
-      this.action = 'complete';
-    } else if (action === 'fail') {
-      status = DayStatus.Failed;
-      this.action = 'fail';
-    } else if (action === 'cancel') {
-      this.action = null;
+    ngOnInit() {}
+
+    // executed whenever one of the input receives a value
+    ngOnChanges(changes: SimpleChanges) {
+        // we are only interested in chosen input
+        if (changes.chosen) {
+            this.action = changes.chosen.currentValue;
+            if (changes.chosen.currentValue === null) {
+                this.done = false;
+            }
+        }
     }
-    this.actionSelect.emit(status);
-  }
+
+    onAction(action: 'complete' | 'fail' | 'cancel') {
+        let status = DayStatus.Open;
+        switch (action) {
+            case 'complete':
+                status = DayStatus.Completed;
+                this.action = 'complete';
+                break;
+            case 'fail':
+                status = DayStatus.Failed;
+                this.action = 'fail';
+                break;
+            case 'cancel':
+                this.action = null;
+                this.done = false;
+                break;
+            default:
+                break;
+        }
+        this.actionSelect.emit(status);
+    }
 }

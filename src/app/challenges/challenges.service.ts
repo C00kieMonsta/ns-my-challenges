@@ -33,6 +33,14 @@ export class ChallengesService {
         this._currentChallenge.next(newChallenge);
     }
 
+    updateChallenge(title: string, description: string) {
+        let uc: Challenge;
+        this._currentChallenge.pipe(take(1)).subscribe(c => {
+            uc = new Challenge(title, description, c.year, c.month, c.days);
+            this._currentChallenge.next(uc);
+        });
+    }
+
     updateDayStatus(dayInMonth: number, status: DayStatus) {
         this._currentChallenge.pipe(take(1)).subscribe(challenge => {
           if (!challenge || challenge.days.length < dayInMonth) {

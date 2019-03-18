@@ -13,15 +13,24 @@ FlexboxLayout {
 }
 
 .btn-success {
-  background: $success;
+  background-color: $success;
   border-color: $success;
+  border-width: 1;
   color: $white;
 }
 
 .btn-fail {
-  background: $fail;
+  background-color: $fail;
   border-color: $fail;
+  border-width: 1;
   color: $white;
+}
+
+.btn-success:disabled,
+.btn-fail:disabled {
+  background-color: #ccc;
+  color: #777777;
+  border-color: #ccc;
 }
 
 .btn-alt {
@@ -33,7 +42,7 @@ FlexboxLayout {
   animation-name: slide-up;
   animation-iteration-count: 1;
   animation-duration: 0.8s;
-  animation-fill-mode: forwards; // this means that we want to keep the end result and not the 'from' state
+  animation-fill-mode: forwards;
 }
 
 @keyframes slide-up {

@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChallengesService } from '../challenges.service';
+import { Challenge } from '../challenge.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-challenge-edit',
@@ -23,9 +25,14 @@ export class ChallengeEditComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.activatedRoute.paramMap.subscribe(paramMap => {
-        //   console.log(paramMap.get('mode'));
-        // });
+
+        // init form
+        this.form = new FormGroup({
+            title: new FormControl(null, {validators: [Validators.required]}),
+            description: new FormControl(null, {validators: [Validators.required]}),
+        });
+
+        // what mode?
         this.pageRoute.activatedRoute.subscribe(activatedRoute => {
             activatedRoute.paramMap.subscribe(paramMap => {
                 if (!paramMap.has('mode')) {
@@ -33,18 +40,29 @@ export class ChallengeEditComponent implements OnInit {
                 } else {
                     this.isCreating = paramMap.get('mode') !== 'edit';
                 }
+
+                if (!this.isCreating) {
+                    this.challengesService.currentChallenge.pipe(take(1)).subscribe(c => this.updateForm(c));
+                }
+
             });
         });
+    }
 
+    updateForm(challenge: Challenge) {
         this.form = new FormGroup({
-            title: new FormControl(null, {validators: [Validators.required]}),
-            description: new FormControl(null, {validators: [Validators.required]}),
+            title: new FormControl(challenge.title, {validators: [Validators.required]}),
+            description: new FormControl(challenge.description, {validators: [Validators.required]}),
         });
     }
 
     onSubmit() {
         // get form values
-        this.challengesService.createNewChallenge(this.form.get('title').value, this.form.get('description').value)
+        if (this.isCreating) {
+            this.challengesService.createNewChallenge(this.form.get('title').value, this.form.get('description').value)
+        } else {
+            this.challengesService.updateChallenge(this.form.get('title').value, this.form.get('description').value);
+        }
         this.router.backToPreviousPage();
     }
 }
