@@ -58,12 +58,7 @@ export class ChallengesService {
         const year = new Date().getFullYear();
         const month = new Date().getMonth();
         const newChallenge = new Challenge(title, description, year, month);
-        // Save it to server
-        this.http.put(`${this._rootUrl}challenge.json`, newChallenge).subscribe(res => {
-            // succes
-        }, err => {
-            // error
-        });
+        this.saveToServer(newChallenge);
         this._currentChallenge.next(newChallenge);
     }
 
@@ -71,6 +66,7 @@ export class ChallengesService {
         let uc: Challenge;
         this._currentChallenge.pipe(take(1)).subscribe(c => {
             uc = new Challenge(title, description, c.year, c.month, c.days);
+            this.saveToServer(uc);
             this._currentChallenge.next(uc);
         });
     }
@@ -85,7 +81,16 @@ export class ChallengesService {
           );
           challenge.days[dayIndex].status = status;
           this._currentChallenge.next(challenge);
-          // Save this to a server
+          this.saveToServer(challenge);
+        });
+    }
+
+    private saveToServer(challenge: Challenge) {
+        // Save it to server
+        this.http.put(`${this._rootUrl}challenge.json`, challenge).subscribe(res => {
+            // succes
+        }, err => {
+            // error
         });
     }
 }
