@@ -7,6 +7,7 @@ import { remove, setString, hasKey, getString } from 'tns-core-modules/applicati
 
 import { User } from './user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
+import { ChallengesService } from '../challenges/challenges.service';
 
 const FIREBASE_API_KEY = 'AIzaSyApJYg6XYodkytxpot59DGkyAddpRhgaVI';
 const FIREBASE_AUTH_URL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/';
@@ -37,7 +38,7 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
-        private router: RouterExtensions,
+        private router: RouterExtensions
     ) {}
 
     get user() {
@@ -82,6 +83,12 @@ export class AuthService {
         if (this.tokenExpirationTimer) {
             clearTimeout(this.tokenExpirationTimer);
         }
+        /**
+         * We won't do that because we have circular reference error both services are injected
+         * in each others if we do that! To remediate to that, we subscribe to the user inside the
+         * challenge service and when the user is set to null, we set the current challenge to null
+         */
+        // this.challengeService.cleanUp();
         this.router.navigate(['/auth'], { clearHistory: true });
     }
 

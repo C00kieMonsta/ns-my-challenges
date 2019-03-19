@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, of } from "rxjs";
+import { Injectable, OnDestroy } from "@angular/core";
+import { BehaviorSubject, of, Subscription } from "rxjs";
 import { take, tap, switchMap } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
 
@@ -17,7 +17,7 @@ import { AuthService } from "../auth/auth.service";
 const FIREBASE_URL = 'https://ns-my-challenges.firebaseio.com/';
 
 @Injectable({ providedIn: 'root' })
-export class ChallengesService {
+export class ChallengesService implements OnDestroy {
 
     /**
      * The BehaviorSubject is like an event emitter but when you subscribe to it,
@@ -25,11 +25,24 @@ export class ChallengesService {
      */
     private _currentChallenge = new BehaviorSubject<Challenge>(null);
     private _rootUrl: string;
+    private userSub: Subscription;
 
     constructor(
         private http: HttpClient,
         private authService: AuthService
-    ) {}
+    ) {
+        /**
+         * We subscribe here to the currentUser and check when this user is set to null
+         * to set the current challenge to null! Why not call the cleanup method on logout?
+         * Because we have a circular reference error when the challenge service is injected
+         * inside the auth service
+         */
+        this.userSub = this.authService.user.subscribe(user => {
+            if (!user) {
+                this.cleanUp();
+            }
+        });
+    }
 
     get currentChallenge() {
         return this._currentChallenge.asObservable();
@@ -54,7 +67,7 @@ export class ChallengesService {
                   month: number;
                   year: number;
                   _days: Day[];
-                }>(`${FIREBASE_URL}challenge.json?auth=${currentUser.token}`);
+                }>(`${FIREBASE_URL}challenge/${currentUser.id}.json?auth=${currentUser.token}`);
             }),
             tap(resData => {
                 if (resData) {
@@ -102,16 +115,24 @@ export class ChallengesService {
         });
     }
 
+    cleanUp() {
+        this._currentChallenge.next(null);
+    }
+
     private saveToServer(challenge: Challenge) {
         this.authService.user.pipe(
             switchMap(currentUser => {
                 if (!currentUser || !currentUser.isAuth) {
                     return;
                 }
-                return this.http.put(`${FIREBASE_URL}challenge.json?auth=${currentUser.token}`, challenge);
+                return this.http.put(`${FIREBASE_URL}challenge/${currentUser.id}.json?auth=${currentUser.token}`, challenge);
             }),
         ).subscribe(res => {
             console.log(res);
         });
+    }
+
+    ngOnDestroy() {
+        this.userSub.unsubscribe();
     }
 }
