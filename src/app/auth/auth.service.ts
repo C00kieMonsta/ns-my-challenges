@@ -92,17 +92,19 @@ export class AuthService {
         const userData: UserData = JSON.parse(getString('userData'));
 
         const loadedUser = new User(
-          userData.email,
-          userData.id,
-          userData._token,
-          new Date(userData._tokenExpirationDate)
+            userData.email,
+            userData.id,
+            userData._token,
+            new Date(userData._tokenExpirationDate)
         );
 
         if (loadedUser.isAuth) {
-          this._user.next(loadedUser);
-          this.autoLogout(loadedUser.timeToExpiry);
-          this.router.navigate(['/challenges'], { clearHistory: true });
-          return of(true);
+            this._user.next(loadedUser);
+            this.autoLogout(loadedUser.timeToExpiry);
+
+            // no need because authGuard
+            // this.router.navigate(['/challenges'], { clearHistory: true });
+            return of(true);
         }
         return of(false);
     }
