@@ -12,6 +12,7 @@
       hint="Min 6 characters" formControlName="password" (returnPress)="onDone()" #passwordEl></TextField>
     <Label *ngIf="!passwordControlIsValid" text="Must be 6+ characters long."></Label>
   </StackLayout>
-  <Button class="btn btn-flat" [text]="isLogin ? 'Signup instead' : 'Login instead'" (tap)="onSwitch()"></Button>
+  <Button class="btn btn-flat" [text]="isLogin ? 'Signup instead' : 'Login instead'" (tap)="onSwitch()" *ngIf="!isLoading"></Button>
   <Button [text]="isLogin ? 'Login' : 'Signup'" class="btn btn-primary btn-rounded-lg" (tap)="onSubmit()" [isEnabled]="form.valid"></Button>
+  <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 </StackLayout>
