@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { take, tap } from 'rxjs/operators';
+import { BehaviorSubject, of } from "rxjs";
+import { take, tap, switchMap } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
 
 import { Challenge } from './challenge.model';
 import { DayStatus, Day } from './day.model';
+import { AuthService } from "../auth/auth.service";
 
 /**
  * If you want to provide the service only to the challenges module, you add this to
@@ -12,6 +13,8 @@ import { DayStatus, Day } from './day.model';
  * provided to the root element because we want the service to be a singleton. It has
  * to be accessible evrywhere as one single instance
  */
+
+const FIREBASE_URL = 'https://ns-my-challenges.firebaseio.com/';
 
 @Injectable({ providedIn: 'root' })
 export class ChallengesService {
@@ -23,22 +26,36 @@ export class ChallengesService {
     private _currentChallenge = new BehaviorSubject<Challenge>(null);
     private _rootUrl: string;
 
-    constructor(private http: HttpClient) {
-        this._rootUrl = 'https://ns-my-challenges.firebaseio.com/';
-    }
+    constructor(
+        private http: HttpClient,
+        private authService: AuthService
+    ) {}
 
     get currentChallenge() {
         return this._currentChallenge.asObservable();
     }
 
     fetchCurrentChallenge() {
-        return this.http.get<{
-            title: string,
-            description: string,
-            year: number,
-            month: number,
-            _days: Day[],
-        }>(`${this._rootUrl}challenge.json`).pipe(
+        /**
+         * We don't subscribe to the user because the subscription closes
+         * the observable, instead we turn it into a new observable, where I
+         * can use the value of this first observable in the second one. We do
+         * this with switchMap
+         */
+        return this.authService.user.pipe(
+            take(1),
+            switchMap(currentUser => {
+                if (!currentUser || !currentUser.isAuth) {
+                    return of(null);
+                }
+                return this.http.get<{
+                  title: string;
+                  description: string;
+                  month: number;
+                  year: number;
+                  _days: Day[];
+                }>(`${FIREBASE_URL}challenge.json?auth=${currentUser.token}`);
+            }),
             tap(resData => {
                 if (resData) {
                     const loadedChallenge = new Challenge(
@@ -73,24 +90,28 @@ export class ChallengesService {
 
     updateDayStatus(dayInMonth: number, status: DayStatus) {
         this._currentChallenge.pipe(take(1)).subscribe(challenge => {
-          if (!challenge || challenge.days.length < dayInMonth) {
-            return;
-          }
-          const dayIndex = challenge.days.findIndex(
-            d => d.dayInMonth === dayInMonth
-          );
-          challenge.days[dayIndex].status = status;
-          this._currentChallenge.next(challenge);
-          this.saveToServer(challenge);
+            if (!challenge || challenge.days.length < dayInMonth) {
+                return;
+            }
+            const dayIndex = challenge.days.findIndex(
+                d => d.dayInMonth === dayInMonth
+            );
+            challenge.days[dayIndex].status = status;
+            this._currentChallenge.next(challenge);
+            this.saveToServer(challenge);
         });
     }
 
     private saveToServer(challenge: Challenge) {
-        // Save it to server
-        this.http.put(`${this._rootUrl}challenge.json`, challenge).subscribe(res => {
-            // succes
-        }, err => {
-            // error
+        this.authService.user.pipe(
+            switchMap(currentUser => {
+                if (!currentUser || !currentUser.isAuth) {
+                    return;
+                }
+                return this.http.put(`${FIREBASE_URL}challenge.json?auth=${currentUser.token}`, challenge);
+            }),
+        ).subscribe(res => {
+            console.log(res);
         });
     }
 }
